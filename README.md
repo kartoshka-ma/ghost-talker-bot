@@ -11,8 +11,8 @@ This repository contains the source code of @GhostTalkerBot, the bot for sending
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/kartoshka-ma/ghosttalkerbot.git
-   cd anonymous-bot
+   git clone https://github.com/kartoshka-ma/ghost-talker-bot.git
+   cd ghost-talker-bot
    ```
 2. **Create and activate a virtual environment (recommended):**
    ```bash
