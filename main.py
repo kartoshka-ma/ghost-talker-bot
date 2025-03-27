@@ -8,7 +8,6 @@ import asyncio
 load_dotenv()
 bot = Bot(token=os.getenv("TOKEN"))
 dp = Dispatcher(bot)
-database = Database(os.getenv("DATABASE_URL"))
 
 
 @dp.message_handler(commands="start")
@@ -29,7 +28,7 @@ async def start_command(message: types.Message) -> None:
 
     if recipient_id:
         data = (user_id, int(recipient_id))
-        async with database as db:
+        async with Database(os.getenv("DATABASE_URL")) as db:
             await db.insert_data(data)
 
     await message.reply(text=msg, parse_mode="Markdown")
@@ -50,7 +49,7 @@ async def create_link(message: types.Message) -> None:
 @dp.message_handler()
 async def echo_message(message: types.Message) -> None:
     user_id = message.from_user.id
-    async with database as db:
+    async with Database(os.getenv("DATABASE_URL")) as db:
         data = await db.connection.fetch("SELECT recipient_id FROM users WHERE user_id = $1 LIMIT 1", user_id)
 
     if data:
@@ -67,7 +66,7 @@ async def echo_message(message: types.Message) -> None:
 
 async def main():
     print("Bot is running...")
-    async with database as db:
+    async with Database(os.getenv("DATABASE_URL")) as db:
         await db.create_table()
     await dp.start_polling()
 
